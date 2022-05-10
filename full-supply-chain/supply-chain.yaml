@@ -18,7 +18,7 @@ spec:
         name: image
       params:
         - name: image_prefix
-          value: 10.161.116.240:5000/example-gitwriter-sc-
+          value: index.docker.io/waciumawanjohi/example-gitwriter-sc-
       sources:
         - name: source
           resource: source-provider
@@ -39,4 +39,3 @@ spec:
       configs:
         - name: data
           resource: config-provider
-

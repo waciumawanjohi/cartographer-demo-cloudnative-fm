@@ -1,4 +1,14 @@
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cartographer-example-registry-creds-sa
+secrets:
+  - name: registry-credentials
+imagePullSecrets:
+  - name: registry-credentials
+
+---
 apiVersion: kpack.io/v1alpha2
 kind: ClusterStore
 metadata:
@@ -28,7 +38,7 @@ spec:
   serviceAccountRef:
     name: cartographer-example-registry-creds-sa
     namespace: default
-  tag: 10.161.116.240:5000/example-gitwriter-sc-go-builder
+  tag: index.docker.io/waciumawanjohi/example-gitwriter-sc-go-builder
   stack:
     name: stack
     kind: ClusterStack
@@ -38,22 +48,3 @@ spec:
   order:
     - group:
         - id: paketo-buildpacks/go
-
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: registry-credentials
-type: kubernetes.io/dockerconfigjson
-stringData:
-  .dockerconfigjson: '{"auths":{"10.161.116.240:5000":{"password":"a-very-hard-to-guess-password","username":"a-username-of-mine"}}}'
-
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: cartographer-example-registry-creds-sa
-secrets:
-  - name: registry-credentials
-imagePullSecrets:
-  - name: registry-credentials
