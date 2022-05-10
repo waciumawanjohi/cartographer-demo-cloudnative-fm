@@ -1,0 +1,44 @@
+---
+apiVersion: carto.run/v1alpha1
+kind: ClusterTemplate
+metadata:
+  name: git-writer
+spec:
+  params:
+    - name: git_repository
+      default: http://git-server.default.svc.cluster.local:80/gitops-test.git
+    - name: git_branch
+      default: main
+    - name: git_user_name
+      default: gitops-user
+    - name: git_user_email
+      default: gitops-user@example.com
+    - name: git_commit_message
+      default: Update config
+  template:
+    apiVersion: carto.run/v1alpha1
+    kind: Runnable
+    metadata:
+      name: $(workload.metadata.name)$-git-writer
+    spec:
+      serviceAccountName: cartographer-example-basic-sc-sa
+      runTemplateRef:
+        name: tekton-taskrun
+      inputs:
+        serviceAccount: cartographer-example-basic-sc-sa
+        taskRef:
+          kind: ClusterTask
+          name: git-writer
+        params:
+          - name: git_repository
+            value: $(params.git_repository)$
+          - name: git_branch
+            value: $(params.git_branch)$
+          - name: git_user_name
+            value: $(params.git_user_name)$
+          - name: git_user_email
+            value: $(params.git_user_email)$
+          - name: git_commit_message
+            value: $(params.git_commit_message)$
+          - name: git_files
+            value: $(config)$

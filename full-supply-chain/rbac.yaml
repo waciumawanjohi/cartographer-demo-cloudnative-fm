@@ -1,0 +1,105 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cartographer-example-basic-sc-sa
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: workload-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: workload-role
+subjects:
+  - kind: ServiceAccount
+    name: cartographer-example-basic-sc-sa
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: workload-role
+rules:
+  - apiGroups:
+      - source.toolkit.fluxcd.io
+      - kpack.io
+      - kapp.k14s.io/v1alpha1
+      - kappctrl.k14s.io
+      - serving.knative.dev/v1
+      - carto.run
+    resources:
+      - gitrepositories
+      - images
+      - configs
+      - apps
+      - services
+      - runnables
+    verbs:
+      - list
+      - create
+      - update
+      - delete
+      - patch
+      - watch
+      - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: workload-config-creation-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: config-creation-role
+subjects:
+  - kind: ServiceAccount
+    name: cartographer-example-basic-sc-sa
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: config-creation-role
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - list
+      - create
+      - update
+      - delete
+      - patch
+      - watch
+      - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: workload-git-writing-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: git-writing-role
+subjects:
+  - kind: ServiceAccount
+    name: cartographer-example-basic-sc-sa
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: git-writing-role
+rules:
+  - apiGroups:
+      - tekton.dev
+    resources:
+      - taskruns
+    verbs:
+      - list
+      - create
+      - update
+      - delete
+      - patch
+      - watch
+

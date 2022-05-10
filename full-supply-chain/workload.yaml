@@ -1,0 +1,19 @@
+---
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: gitwriter-sc
+  labels:
+    app.tanzu.vmware.com/workload-type: web
+    app.kubernetes.io/part-of: hello-world
+spec:
+  serviceAccountName: cartographer-example-basic-sc-sa
+  source:
+    git:
+      url: https://github.com/carto-labs/hello-world
+      ref:
+        branch: main
+  build:
+    env:
+      - name: CGO_ENABLED
+        value: "0"
