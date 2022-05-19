@@ -1,8 +1,9 @@
-# CloudNative FM Cartographer Demo
+# CloudNative.FM Cartographer Demo
 
 ## Intro
 
-These are the example files used in the CloudNative.FM episode highlighting Cartographer. Cartographer is an open
+These are the example files used in the [CloudNative.FM episode highlighting
+Cartographer](https://www.youtube.com/watch?v=RJCbQ1zQSBs). Cartographer is an open
 source project allowing you to get your code to production using Kubernetes Resources as your primitives, rather
 than executable files. Leave bash scripting behind and make your software supply chain cloud native!
 
